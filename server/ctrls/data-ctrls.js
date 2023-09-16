@@ -3,6 +3,7 @@ import csv from "csv-parser";
 import fetch from "node-fetch";
 // vars
 const REPORTING_ENDPOINT = "http://127.0.0.1:8000/finale";
+// const REPORTING_ENDPOINT = "https://axisllmapi.onrender.com";
 
 export const getData = async (req, res) => {
   try {
