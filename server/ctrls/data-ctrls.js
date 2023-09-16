@@ -4,6 +4,7 @@ import fetch from "node-fetch";
 // vars
 // const REPORTING_ENDPOINT = "http://127.0.0.1:8000/finale";
 const REPORTING_ENDPOINT = "https://axisllmapi.onrender.com/finale";
+// const REPORTING_ENDPOINT = "http://13.233.51.135:8000/finale";
 
 export const getData = async (req, res) => {
   try {
