@@ -1,5 +1,5 @@
-// const BASE = "http://localhost:8001";
-const BASE = "https://axisllm.onrender.com";
+const BASE = "http://localhost:8001";
+// const BASE = "https://axisllm.onrender.com";
 // auth endpoints
 export const AUTH_IN_ENDPOINT = BASE + "/auth/in";
 export const AUTH_TOKEN_ENDPOINT = BASE + "/auth/token";

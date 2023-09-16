@@ -1,5 +1,7 @@
 import openai
+import os
 import re
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -11,6 +13,7 @@ import sqlite3
 import pandas as pd
 import re
 
+load_dotenv()  # take environment variables from .env.
 
 cnx = sqlite3.connect('data_KRA.sqlite')
 
@@ -227,7 +230,7 @@ def create_report_endpoint(request: CompletionRequest):
     return JSONResponse({"data": {"output": output, "data": data,"cols":cols}, "status": 200, "message": "Response successful"})
 
 
-openai.api_key = ""
+openai.api_key = os.environ["OPENAI_KEY"]
 db = SQLDatabase.from_uri("sqlite:///data_KRA.sqlite")
-llm = OpenAI(openai_api_key="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", temperature=0.2)
+llm = OpenAI(openai_api_key=os.environ["OPENAI_KEY"], temperature=0.2)
 db_chain = SQLDatabaseChain.from_llm(llm, db, return_intermediate_steps=True, use_query_checker=True)
