@@ -227,7 +227,7 @@ def create_report_endpoint(request: CompletionRequest):
     return JSONResponse({"data": {"output": output, "data": data,"cols":cols}, "status": 200, "message": "Response successful"})
 
 
-openai.api_key = "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"
+openai.api_key = ""
 db = SQLDatabase.from_uri("sqlite:///data_KRA.sqlite")
 llm = OpenAI(openai_api_key="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", temperature=0.2)
 db_chain = SQLDatabaseChain.from_llm(llm, db, return_intermediate_steps=True, use_query_checker=True)
