@@ -42,7 +42,7 @@ const Dashboard = () => {
   const [role, setRole] = useState(Object.keys(roles)[0]);
   const [roleIds, setRoleIds] = useState(fetchRoleIds[role] || []);
 
-  const isProfileComplete = (user) => !(user && user.name && user.role);
+  const isProfileComplete = (user) => !(user && user?.name && user?.role);
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -50,9 +50,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!user) navigate(AUTH_ROUTE);
-    else if (user.role) {
-      setRole(user.role);
-      setRoleIds(fetchRoleIds(user.role) || []);
+    else if (user?.role) {
+      setRole(user?.role);
+      setRoleIds(fetchRoleIds(user?.role) || []);
     }
   }, [user]);
 
@@ -93,7 +93,7 @@ const Dashboard = () => {
     if (user) {
       try {
         axios
-          .patch(USER_ENDPOINT, { query: { _id: user._id }, updates: data })
+          .patch(USER_ENDPOINT, { query: { _id: user?._id }, updates: data })
           .then((res) => {
             setUser((user) => ({ ...user, ...data }));
             setProfileOpen(false);
@@ -137,7 +137,7 @@ const Dashboard = () => {
             <Toolbar sx={{ mb: 3 }} />
             <Suspense fallback={<Loader />}>
               <Routes>
-                {user && user.email ? (
+                {user && user?.email ? (
                   <>
                     <Route path="/recommendation/*" element={<Recommendation />} />
                     <Route path="/interaction/*" element={<Interaction />} />
@@ -153,17 +153,17 @@ const Dashboard = () => {
             </Suspense>
           </Box>
         </Box>
-        <Dialog open={isProfileComplete(user) || profileOpen} onClose={() => setProfileOpen(!isProfileComplete(user))}>
+        {user?.email ? <Dialog open={(isProfileComplete(user) || profileOpen)} onClose={() => setProfileOpen(!isProfileComplete(user))}>
           <DialogTitle>Update Profile</DialogTitle>
           <DialogContent>
             <DialogContentText>Complete / Update your profile and continue using {COMPANY}.</DialogContentText>
             <Box component={"form"} onSubmit={updateProfile}>
               <Grid container spacing={2} my={2}>
                 <Grid item xs={12} sm={6}>
-                  <TextField fullWidth required sx={{ flex: 1 }} defaultValue={user.name || ""} label="Name" name="name" variant="outlined" />
+                  <TextField fullWidth required sx={{ flex: 1 }} defaultValue={user?.name || ""} label="Name" name="name" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField disabled fullWidth sx={{ flex: 1 }} defaultValue={user.email || ""} name="email" label="Email" variant="outlined" />
+                  <TextField disabled fullWidth sx={{ flex: 1 }} defaultValue={user?.email || ""} name="email" label="Email" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Autocomplete
@@ -175,13 +175,13 @@ const Dashboard = () => {
                       setUser((user) => ({ ...user, role: value, roleId: fetchRoleIds(value)[0] }));
                       setRoleIds(fetchRoleIds(value) || []);
                     }}
-                    defaultValue={user.role || Object.keys(roles)[0]}
+                    defaultValue={user?.role || Object.keys(roles)[0]}
                     options={Object.keys(roles)}
                     renderInput={(params) => <TextField {...params} label="Role" name="role" />}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Autocomplete fullWidth required sx={{ flex: 1 }} value={user.roleId || (roleIds.length ? roleIds[0] : "")} onChange={(e, value) => setUser((user) => ({ ...user, roleId: value }))} options={roleIds} renderInput={(params) => <TextField {...params} name="roleId" label="Role ID" />} />
+                  <Autocomplete fullWidth required sx={{ flex: 1 }} value={user?.roleId || (roleIds.length ? roleIds[0] : "")} onChange={(e, value) => setUser((user) => ({ ...user, roleId: value }))} options={roleIds} renderInput={(params) => <TextField {...params} name="roleId" label="Role ID" />} />
                 </Grid>
               </Grid>
               <LoadingButton fullWidth loading={isLoading} variant="contained" type="submit" color="primary">
@@ -189,7 +189,7 @@ const Dashboard = () => {
               </LoadingButton>
             </Box>
           </DialogContent>
-        </Dialog>
+        </Dialog> : null}
       </AppContext.Provider>
     </ThemeProvider>
   );

@@ -1,5 +1,6 @@
 import fs from "fs";
 import csv from "csv-parser";
+import fetch from "node-fetch";
 // vars
 const REPORTING_ENDPOINT = "http://127.0.0.1:8000/finale";
 
